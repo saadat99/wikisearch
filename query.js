@@ -7,14 +7,11 @@
     var toSearch = '';
 
 var url = "https://query.wikidata.org/sparql";
-//var query = "SELECT ?verb WHERE {wd:Q55 ?verb wd:Q727}";
-
 
 
 $('#search').click(function (e) {
     articles1.empty();
-    var search = $('#person').val();
-    //search += ' + Born';
+    var search = $('#person').val();    
     console.log(search);
     var query = 'SELECT distinct ?image ?item ?itemLabel ?itemDescription ?DR ?RIP WHERE {?item wdt:P31 wd:Q5. ?item ?label "' + search + '"@en. OPTIONAL{?item wdt:P569 ?DR .} OPTIONAL{?item wdt:P570 ?RIP .} OPTIONAL{?item wdt:P18 ?image .} SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }  }';
     console.log(query);
@@ -22,8 +19,7 @@ $('#search').click(function (e) {
     $.ajax({
         dataType: "json",
         url: queryUrl,
-        success: function (data) {
-            //console.log(data);            
+        success: function (data) {                  
             var results = data.results.bindings;
             if (results.length > 0) {
                 console.log(results);
@@ -52,9 +48,7 @@ $('#search').click(function (e) {
                     if (typeof (results[i].itemDescription) != 'undefined') {
                         articles1.append(results[i].itemDescription.value);
                     }
-                    articles1.append('<br><br>');
-                    //articles2.append(results[i].itemLabel.value);
-                    //articles3.append(results[i].itemLabel.value);
+                    articles1.append('<br><br>');                   
                 }
             }
             else {
@@ -69,7 +63,7 @@ $('#search').click(function (e) {
 })
 
 $('#person').keypress(function (e) {
-    if (e.which == 13) {//Enter key pressed
+    if (e.which === 13) {
         $('#search').click();
     }
 });
